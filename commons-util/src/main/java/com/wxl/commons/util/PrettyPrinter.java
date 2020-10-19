@@ -1,5 +1,6 @@
 package com.wxl.commons.util;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,8 +9,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Create by wuxingle on 2020/10/12
@@ -25,82 +28,149 @@ public class PrettyPrinter {
     /**
      * 16进制打印
      */
-    public static void printHex(byte[] bytes) {
-        System.out.println(Hex.encodeHexString(bytes));
+    public static void printHex(@Nullable byte[] bytes) {
+        if (bytes == null) {
+            System.out.println(nullToString());
+        } else {
+            System.out.println(Hex.encodeHexString(bytes));
+        }
     }
 
     /**
      * 打印base64
      */
-    public static void printBase64(byte[] bytes) {
-        System.out.println(Base64.getEncoder().encodeToString(bytes));
+    public static void printBase64(@Nullable byte[] bytes) {
+        if (bytes == null) {
+            System.out.println(nullToString());
+        } else {
+            System.out.println(Base64.getEncoder().encodeToString(bytes));
+        }
     }
 
     /**
      * 打印json
      */
-    public static void printJson(Object object) {
-        System.out.println(GSON.toJson(object));
+    public static void printJson(@Nullable Object object) {
+        if (object == null) {
+            System.out.println(nullToString());
+        } else {
+            System.out.println(GSON.toJson(object));
+        }
     }
 
     /**
      * 打印表格
-     *
-     * @param table
      */
-    public static void printTable(Table<?, ?, ?> table, int cellWidthLimit) {
-        Set<?> columnKeys = table.columnKeySet();
+    public static <T> void printTable(@Nullable List<List<T>> table) {
+        if (table == null) {
+            System.out.println(nullToString());
+            return;
+        }
+
+        Table<Integer, Integer, Object> newTable = HashBasedTable.create();
+        for (int i = 0; i < table.size(); i++) {
+            List<?> row = Optional.ofNullable(table.get(i)).orElse(Collections.emptyList());
+            for (int j = 0; j < row.size(); j++) {
+                Object cell = row.get(j);
+                newTable.put(i + 1, j + 1, cell);
+            }
+        }
+
+        printTable(newTable);
+    }
+
+    /**
+     * 打印表格
+     */
+    public static <R, C, V> void printTable(@Nullable Table<R, C, V> table) {
+        if (table == null) {
+            System.out.println(nullToString());
+            return;
+        }
+
+        // 表格每列的最大字符长度
+        List<Integer> columnLens = tableColumnLens(table);
 
         // 打印head
+        Set<C> columnKeys = table.columnKeySet();
         List<String> head = new ArrayList<>(columnKeys.size() + 1);
         head.add("");
         head.addAll(columnKeys.stream()
-                .map(obj -> Objects.toString(obj, "null"))
+                .map(PrettyPrinter::toString)
                 .collect(Collectors.toList()));
 
-        printRow(head, cellWidthLimit);
+        printTableSplit(columnLens);
+        printTableRow(head, columnLens);
+        printTableSplit(columnLens);
 
         // 打印数据
-        Set<?> rowKeys = table.rowKeySet();
-        for (Object rowKey : rowKeys) {
+        Set<R> rowKeys = table.rowKeySet();
+        for (R rowKey : rowKeys) {
             List<String> data = new ArrayList<>();
-            data.add(Objects.toString(rowKey, "null"));
-            for (Object columnKey : columnKeys) {
-                data.add(Objects.toString(table.get(rowKey, columnKey), "null"));
+            data.add(toString(rowKey));
+            for (C columnKey : columnKeys) {
+                data.add(toString(table.get(rowKey, columnKey)));
             }
 
-            printRow(data, cellWidthLimit);
+            printTableRow(data, columnLens);
         }
+
+        printTableSplit(columnLens);
     }
 
+    /**
+     * 返回表格每列的最大显示长度
+     */
+    private static <R, C, V> List<Integer> tableColumnLens(Table<R, C, V> table) {
+        List<Integer> columnLens = new ArrayList<>();
+        int rowKeyMaxLen = maxDisplayLength(table.rowKeySet());
+        columnLens.add(rowKeyMaxLen);
 
-    public static void printRow(List<String> row, int cellWidthLimit) {
-        List<List<String>> newRow = row.stream()
-                .map(str -> clipByLength(str, cellWidthLimit))
-                .collect(Collectors.toList());
-
-        int maxRow = newRow.stream()
-                .mapToInt(List::size)
-                .max()
-                .orElse(0);
-
-        for (int i = 0; i < maxRow; i++) {
-            for (int j = 0; j < newRow.size(); j++) {
-                String line = "";
-                if (i < newRow.get(j).size()) {
-                    line = newRow.get(j).get(i);
-                }
-                line = StringUtils.rightPad(line, cellWidthLimit);
-                System.out.print(line);
-
-                if (j < newRow.size() - 1) {
-                    System.out.print("|");
-                }
-            }
-            System.out.println();
+        for (C columnKey : table.columnKeySet()) {
+            Map<R, V> columns = table.column(columnKey);
+            int len = Math.max(maxDisplayLength(columns.values()), toString(columnKey).length());
+            columnLens.add(len);
         }
-        String splitLine = StringUtils.rightPad("-", cellWidthLimit * newRow.size(), '-');
-        System.out.println(splitLine);
+        return columnLens;
+    }
+
+    /**
+     * 打印表格分隔符
+     *
+     * @param columnLens 每列长度
+     */
+    private static void printTableSplit(List<Integer> columnLens) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < columnLens.size(); i++) {
+            sb.append('+');
+            String split = StringUtils.rightPad("-", columnLens.get(i) + 2, '-');
+            sb.append(split);
+            if (i >= columnLens.size() - 1) {
+                sb.append('+');
+            }
+        }
+        System.out.println(sb);
+    }
+
+    /**
+     * 打印表格数据行
+     *
+     * @param row        行数据
+     * @param columnLens 每列长度
+     */
+    private static void printTableRow(List<String> row, List<Integer> columnLens) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < row.size(); i++) {
+            Integer len = columnLens.get(i);
+            sb.append("| ");
+            String cell = row.get(i);
+            sb.append(StringUtils.rightPad(cell, cell.length() + (len - getDisplayLen(cell))));
+            sb.append(" ");
+            if (i >= row.size() - 1) {
+                sb.append("|");
+            }
+        }
+        System.out.println(sb);
     }
 
     /**
@@ -109,16 +179,16 @@ public class PrettyPrinter {
      * @param columnLimit 单栏最大列
      * @param objects     打印对象
      */
-    public static void printSideJson(Integer columnLimit, Object obj, Object... objects) {
+    public static void printSideJson(Integer columnLimit, Object... objects) {
         Object[] jsons = new Object[objects.length];
         for (int i = 0; i < jsons.length; i++) {
             jsons[i] = GSON.toJson(objects[i]);
         }
-        printSideBySide(columnLimit, GSON.toJson(obj), jsons);
+        printSideBySide(columnLimit, jsons);
     }
 
-    public static void printSideJson(Object obj, Object... objects) {
-        printSideJson(100, obj, objects);
+    public static void printSideJson(Object... objects) {
+        printSideJson(100, objects);
     }
 
     /**
@@ -126,8 +196,8 @@ public class PrettyPrinter {
      *
      * @param objects 打印对象
      */
-    public static void printSideBySide(Object obj, Object... objects) {
-        printSideBySide(100, obj, objects);
+    public static void printSideBySide(Object... objects) {
+        printSideBySide(100, objects);
     }
 
     /**
@@ -136,20 +206,15 @@ public class PrettyPrinter {
      * @param columnLimit 单栏最大列
      * @param objects     打印对象
      */
-    public static void printSideBySide(Integer columnLimit, Object obj, Object... objects) {
+    public static void printSideBySide(Integer columnLimit, Object... objects) {
         Assert.isTrue(columnLimit != null && columnLimit > 0, "column limit must > 0");
 
         List<String[]> sides = new ArrayList<>(objects.length + 1);
-        sides.add(Objects.toString(obj, "null").split(System.lineSeparator()));
         for (Object object : objects) {
-            sides.add(Objects.toString(object, "null").split(System.lineSeparator()));
+            sides.add(toString(object).split(System.lineSeparator()));
         }
         // 最大列数
-        int maxColumn = Math.min(columnLimit, sides.stream()
-                .flatMap(Arrays::stream)
-                .mapToInt(String::length)
-                .max()
-                .orElse(0));
+        int maxColumn = Math.min(columnLimit, maxDisplayLength(sides.stream().flatMap(Arrays::stream)));
 
         // 过长的行修剪
         List<List<String>> newSides = clipByLength(sides, maxColumn);
@@ -215,7 +280,7 @@ public class PrettyPrinter {
         printThreadInfo(thread, null);
     }
 
-    public static void printThreadInfo(Object obj) {
+    public static void printThreadInfo(@Nullable Object obj) {
         printThreadInfo(Thread.currentThread(), obj);
     }
 
@@ -227,8 +292,47 @@ public class PrettyPrinter {
                 + ", priority:" + thread.getPriority()
                 + ", state:" + thread.getState().name();
         if (obj != null) {
-            info = "[" + info + "]: " + obj;
+            info = "[" + info + "]: " + toString(obj);
         }
         System.out.println(info);
     }
+
+    /**
+     * 列表中字符串的最大显示长度
+     */
+    private static int maxDisplayLength(Collection<?> collection) {
+        return maxDisplayLength(collection.stream());
+    }
+
+    private static int maxDisplayLength(Stream<?> stream) {
+        return stream.map(PrettyPrinter::toString)
+                .mapToInt(PrettyPrinter::getDisplayLen)
+                .max()
+                .orElse(0);
+    }
+
+    private static String toString(@Nullable Object obj) {
+        return obj == null ? nullToString() : obj.toString();
+    }
+
+    private static String nullToString() {
+        return "null";
+    }
+
+    /**
+     * 获取显示长度，非ascii字符宽度默认12/7的比例
+     */
+    private static int getDisplayLen(String str) {
+        BigDecimal bigDecimal = BigDecimal.valueOf(0);
+        char[] chars = str.toCharArray();
+        for (char c : chars) {
+            if (c < 128) {
+                bigDecimal = bigDecimal.add(BigDecimal.valueOf(1));
+            } else {
+                bigDecimal = bigDecimal.add(BigDecimal.valueOf(12 / 7.0));
+            }
+        }
+        return bigDecimal.intValue();
+    }
 }
+

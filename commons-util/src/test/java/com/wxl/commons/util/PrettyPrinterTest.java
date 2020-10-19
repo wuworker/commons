@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class PrettyPrinterTest {
         Map<String, Object> m2 = ImmutableMap.of("name", "xiaohong",
                 "age", 18,
                 "subject", ImmutableList.of("yuwen", "yingyu", "shuxue"));
-        Map<String, Object> m3 = ImmutableMap.of("name", "xiaogang",
+        Map<String, Object> m3 = ImmutableMap.of("name", "哈哈哈哈哈哈哈哈哈哈哈",
                 "age", 22,
                 "subject", ImmutableList.of("zhengzhi", "lishi", "shuxue", "dili"));
 
@@ -54,10 +55,19 @@ public class PrettyPrinterTest {
 
         table.put("3", "name", "hehe");
         table.put("3", "age", "20");
-        table.put("3", "subj", "3333333333");
+        table.put("3", "subject", "3333333333");
         table.put("3", "country", "jjjj");
 
-        PrettyPrinter.printTable(table, 8);
+        PrettyPrinter.printTable(table);
 
+        List<List<String>> table2 = ImmutableList.of(
+                ImmutableList.of("aaaaa", "bbb", "cccccc"),
+                ImmutableList.of("ddddd", "eeeee", "fffffffffffff"),
+                ImmutableList.of("ggggggg", "哈哈哈", "iiiiiii")
+        );
+
+        PrettyPrinter.printTable(table2);
     }
+
+
 }
