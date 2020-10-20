@@ -16,4 +16,8 @@ public interface JdbcMapping<T> {
      */
     T mapping(Map<String, Object> data);
 
+
+    static JdbcMapping<Map<String, Object>> map() {
+        return data -> data;
+    }
 }
