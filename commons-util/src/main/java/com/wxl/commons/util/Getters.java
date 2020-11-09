@@ -1,99 +1,84 @@
 package com.wxl.commons.util;
 
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.lang.Nullable;
-import org.springframework.util.NumberUtils;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
  * Create by wuxingle on 2020/10/15
  * 用与把value转为目标值
+ * ConversionService简单包装
  */
 public class Getters {
 
+    @Nullable
     private final Object value;
 
-    private Getters(Object value) {
+    @Nullable
+    private Class<?> valueClass;
+
+    private ConversionService conversionService;
+
+    private Getters(@Nullable Object value) {
         this.value = value;
+        this.conversionService = DefaultConversionService.getSharedInstance();
+        if (this.value != null) {
+            this.valueClass = this.value.getClass();
+        }
     }
 
-    public static Getters of(Object value) {
+    public static Getters of(@Nullable Object value) {
         return new Getters(value);
+    }
+
+    public Getters hint(Class<?> clazz) {
+        this.valueClass = clazz;
+        return this;
+    }
+
+    public Getters setConversionService(ConversionService conversionService) {
+        this.conversionService = conversionService;
+        return this;
+    }
+
+    public ConversionService getConversionService() {
+        return conversionService;
     }
 
     /**
      * 已知目标类型下获取
      */
+    @Nullable
     @SuppressWarnings("unchecked")
     public <T> T get() {
         return (T) value;
     }
 
     /**
-     * 不为目标类型返回空
+     * 转换为目标类型
      */
     @Nullable
-    @SuppressWarnings("unchecked")
     public <T> T get(Class<T> clazz) {
-        if (clazz.isInstance(value)) {
-            return (T) value;
-        }
-        return null;
+        return conversionService.convert(value, clazz);
     }
 
     /**
      * 不是目标类型，获取默认值
      */
-    @SuppressWarnings("unchecked")
-    public <T> T orDefault(Class<T> clazz, T defaultVal) {
-        if (clazz.isInstance(value)) {
-            return (T) value;
+    @Nullable
+    public <T> T orElse(Class<T> clazz, T defaultVal) {
+        if (conversionService.canConvert(valueClass, clazz)) {
+            return conversionService.convert(value, clazz);
         }
+
         return defaultVal;
     }
 
     /**
-     * 是否为数值类型
+     * 是否支持转为目标类型
      */
-    public boolean isNumber() {
-        return NumberUtils.STANDARD_NUMBER_TYPES.contains(value.getClass());
+    public boolean support(Class<?> clazz) {
+        return conversionService.canConvert(valueClass, clazz);
     }
-
-    /**
-     * 获取数值类型
-     */
-    public Byte getByte() {
-        return NumberUtils.convertNumberToTargetClass(get(), Byte.class);
-    }
-
-    public Short getShort() {
-        return NumberUtils.convertNumberToTargetClass(get(), Short.class);
-    }
-
-    public Integer getInteger() {
-        return NumberUtils.convertNumberToTargetClass(get(), Integer.class);
-    }
-
-    public Long getLong() {
-        return NumberUtils.convertNumberToTargetClass(get(), Long.class);
-    }
-
-    public BigInteger getBigInteger() {
-        return NumberUtils.convertNumberToTargetClass(get(), BigInteger.class);
-    }
-
-    public Float getFloat() {
-        return NumberUtils.convertNumberToTargetClass(get(), Float.class);
-    }
-
-    public Double getDouble() {
-        return NumberUtils.convertNumberToTargetClass(get(), Double.class);
-    }
-
-    public BigDecimal getBigDecimal() {
-        return NumberUtils.convertNumberToTargetClass(get(), BigDecimal.class);
-    }
-
 
 }

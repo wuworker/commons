@@ -6,7 +6,7 @@ import java.util.*;
  * Create by wuxingle on 2020/10/13
  * 分页迭代器
  */
-public class PageIterator<E> implements Iterator<E> {
+public class PageIterator<E> implements BatchIterator<E> {
 
     /**
      * 数据生成接口
@@ -103,6 +103,7 @@ public class PageIterator<E> implements Iterator<E> {
      *
      * @param maxSize 最大个数限制
      */
+    @Override
     public List<E> nextBatch(int maxSize) {
         List<E> data = new ArrayList<>();
 
@@ -121,6 +122,19 @@ public class PageIterator<E> implements Iterator<E> {
             loadSize += remain;
         }
 
+        return data;
+    }
+
+    /**
+     * 返回剩余所有元素
+     */
+    @Override
+    public List<E> nextBatch() {
+        List<E> data = new ArrayList<>();
+        while (hasNext()) {
+            data.addAll(list.subList(index, list.size()));
+            index = list.size();
+        }
         return data;
     }
 

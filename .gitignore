@@ -34,3 +34,5 @@ build/
 release.properties
 release-pom.xml
 pom.xml.releaseBackup
+.xlsx
+.xlx
