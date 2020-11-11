@@ -36,3 +36,4 @@ release-pom.xml
 pom.xml.releaseBackup
 .xlsx
 .xlx
+.log
