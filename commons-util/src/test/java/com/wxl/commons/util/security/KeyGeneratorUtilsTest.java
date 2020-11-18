@@ -5,6 +5,7 @@ import org.junit.Test;
 
 /**
  * Created by wuxingle on 2017/9/10 0010.
+ * 密钥生成测试
  */
 public class KeyGeneratorUtilsTest {
 

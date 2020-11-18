@@ -4,6 +4,7 @@ import org.junit.Test;
 
 /**
  * Created by wuxingle on 2017/11/24.
+ * 别名转换测试
  */
 public class AliasUtilsTest {
 

@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 
 /**
  * Create by wuxingle on 2020/10/12
+ * 随机数测试
  */
 public class RandomUtilsTest {
 

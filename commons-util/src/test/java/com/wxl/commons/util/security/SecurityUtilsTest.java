@@ -11,6 +11,7 @@ import static com.wxl.commons.util.security.SecurityUtils.*;
 
 /**
  * Created by wuxingle on 2017/9/11 0011.
+ * hash，加解密测试
  */
 public class SecurityUtilsTest {
 

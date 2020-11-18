@@ -13,6 +13,7 @@ import java.util.Base64;
 
 /**
  * Created by wuxingle on 2018/05/09
+ * jkd相关测试
  */
 public class JKSManagerTest {
 
