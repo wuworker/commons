@@ -4,16 +4,14 @@ import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import lombok.Getter;
-import org.springframework.beans.BeanUtils;
 import org.springframework.lang.Nullable;
-import org.springframework.util.NumberUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Create by wuxingle on 2020/10/15
@@ -44,7 +42,7 @@ public class JdbcOperator {
     private final ThreadLocal<Boolean> transactionState = new ThreadLocal<>();
 
     public JdbcOperator(String driver, String url, String username, String password) throws ClassNotFoundException {
-        this(driver, url, username, password, true);
+        this(driver, url, username, password, false);
     }
 
     public JdbcOperator(String driver, String url, String username, String password, boolean autoClose) throws ClassNotFoundException {
@@ -74,44 +72,34 @@ public class JdbcOperator {
     }
 
     /**
-     * 查询为对象
+     * 查询为目标类型
      */
     public <T> List<T> query(Class<T> clazz, String sql, Object... params) throws SQLException {
-        return query(clazz, NameMapping.toCamel(), sql, params);
+        return query(clazz, null, sql, params);
     }
 
     @Nullable
     public <T> T queryOne(Class<T> clazz, String sql, Object... params) throws SQLException {
-        List<T> list = query(clazz, NameMapping.toCamel(), sql, params);
+        List<T> list = query(clazz, null, sql, params);
         return limitOne(list);
     }
 
     /**
-     * 查询为对象
+     * 查询为目标类型
      */
-    public <T> List<T> query(Class<T> clazz, NameMapping nameMapping, String sql, Object... params) throws SQLException {
-        JdbcMapping<T> mapping = data -> {
-            T bean = BeanUtils.instantiateClass(clazz);
-            for (Map.Entry<String, Object> entry : data.entrySet()) {
-                String fieldName = nameMapping.mapping(entry.getKey());
-                Field field = ReflectionUtils.findField(clazz, fieldName);
-                if (field != null) {
-                    setFieldValue(field, bean, entry.getValue());
-                }
-            }
-            return bean;
-        };
+    public <T> List<T> query(Class<T> clazz, @Nullable NameMapping nameMapping, String sql, Object... params) throws SQLException {
+        JdbcMapping<T> mapping = new AutoClassJdbcMapping<>(clazz, nameMapping);
         return query(mapping, sql, params);
     }
 
     @Nullable
-    public <T> T queryOne(Class<T> clazz, NameMapping nameMapping, String sql, Object... params) throws SQLException {
+    public <T> T queryOne(Class<T> clazz, @Nullable NameMapping nameMapping, String sql, Object... params) throws SQLException {
         List<T> list = query(clazz, nameMapping, sql, params);
         return limitOne(list);
     }
 
     /**
-     * 查询为对象
+     * 查询为特定类型
      */
     public <T> List<T> query(JdbcMapping<T> mapping, String sql, Object... params) throws SQLException {
         Table<Integer, String, Object> table = query(sql, params);
@@ -163,16 +151,8 @@ public class JdbcOperator {
      * 查个数
      */
     public long count(String sql, Object... params) throws SQLException {
-        Table<Integer, String, Object> table = query(sql, params);
-        Map<String, Object> row = table.row(0);
-        if (row.isEmpty()) {
-            throw new SQLException("can not get count result from sql:" + sql);
-        }
-        if (row.size() > 1) {
-            throw new SQLException("get more one result from sql:" + sql);
-        }
-        Number count = (Number) row.values().iterator().next();
-        return NumberUtils.convertNumberToTargetClass(count, Long.class);
+        Long res = queryOne(Long.class, sql, params);
+        return res == null ? 0 : res;
     }
 
     /**
@@ -269,36 +249,5 @@ public class JdbcOperator {
             throw new SQLException("sql result find " + list.size() + ",but expect is one!");
         }
         return list.get(0);
-    }
-
-    /**
-     * 设置value
-     */
-    @SuppressWarnings("unchecked")
-    private void setFieldValue(Field field, Object target, @Nullable Object value) {
-        field.setAccessible(true);
-        if (value == null) {
-            ReflectionUtils.setField(field, target, null);
-            return;
-        }
-
-        Class<?> fieldClass = field.getType();
-        // value类型和目标类型不一致，尝试转换value类型
-        if (!fieldClass.isInstance(value)) {
-            // Date和Long转换
-            if ((value instanceof Date) && fieldClass == Long.class) {
-                value = ((Date) value).getTime();
-            }
-            // 数值转换
-            else if (Number.class.isAssignableFrom(fieldClass) && (value instanceof Number)) {
-                value = NumberUtils.convertNumberToTargetClass(
-                        (Number) value, (Class<? extends Number>) fieldClass);
-            } else {
-                throw new IllegalStateException("class cast error by:"
-                        + value.getClass() + " to " + fieldClass);
-            }
-        }
-
-        ReflectionUtils.setField(field, target, value);
     }
 }

@@ -6,11 +6,13 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Create by wuxingle on 2020/10/16
+ * jdbc操作测试
  */
 public class JdbcOperatorTest {
 
@@ -20,7 +22,7 @@ public class JdbcOperatorTest {
 
     private static final String password = "123456";
 
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
+    private static final String driver = "com.mysql.jdbc.Driver";
 
     private static JdbcOperator operator;
 
@@ -53,6 +55,24 @@ public class JdbcOperatorTest {
 
         List<Map<String, Object>> list = operator.query(JdbcMapping.map(), "select * from user");
         PrettyPrinter.printJson(list);
+    }
+
+    @Test
+    public void queryOne() throws Exception {
+        Integer id = operator.queryOne(Integer.class, "select id from user limit 1");
+        System.out.println(id);
+
+        List<Integer> ids = operator.query(Integer.class, "select id from user");
+        System.out.println(ids);
+
+        List<Date> dates = operator.query(Date.class, "select create_time from user");
+        System.out.println(dates);
+
+        List<Long> timestamp = operator.query(Long.class, "select create_time from user");
+        System.out.println(timestamp);
+
+        Boolean res = operator.queryOne(Boolean.class, "select count(*) from user");
+        System.out.println(res);
     }
 
     @Test
