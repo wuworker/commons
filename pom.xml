@@ -9,6 +9,7 @@
         <module>commons-util</module>
         <module>commons-jdbc</module>
         <module>commons-excel</module>
+        <module>commons-http</module>
     </modules>
 
     <groupId>com.wxl.commons</groupId>

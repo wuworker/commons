@@ -28,6 +28,11 @@
                 <artifactId>commons-excel</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.wxl.commons</groupId>
+                <artifactId>commons-http</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
