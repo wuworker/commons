@@ -82,6 +82,66 @@ public class RandomUtils {
     }
 
     /**
+     * 随机long
+     */
+    public static long nextLong() {
+        return nextLong(RANDOM);
+    }
+
+    public static long nextLong(Random random) {
+        return random.nextLong();
+    }
+
+    public static long nextLong(long endExclusive) {
+        return nextLong(RANDOM, 0, endExclusive);
+    }
+
+    public static long nextLong(Random random, long endExclusive) {
+        return nextLong(random, 0, endExclusive);
+    }
+
+    public static long nextLong(long startInclusive, long endExclusive) {
+        return nextLong(RANDOM, startInclusive, endExclusive);
+    }
+
+    public static long nextLong(Random random, long startInclusive, long endExclusive) {
+        if (startInclusive == endExclusive) {
+            return startInclusive;
+        }
+        return startInclusive + (long) ((endExclusive - startInclusive) * random.nextDouble());
+    }
+
+    /**
+     * 随机float
+     */
+    public static float nextFloat() {
+        return nextFloat(RANDOM);
+    }
+
+    public static float nextFloat(Random random) {
+        return random.nextFloat();
+    }
+
+    public static float nextFloat(float endExclusive) {
+        return nextFloat(RANDOM, 0, endExclusive);
+    }
+
+    public static float nextFloat(Random random, float endExclusive) {
+        return nextFloat(random, 0, endExclusive);
+    }
+
+    public static float nextFloat(float startInclusive, float endExclusive) {
+        return nextFloat(RANDOM, startInclusive, endExclusive);
+    }
+
+    public static float nextFloat(Random random, float startInclusive, float endExclusive) {
+        if (startInclusive == endExclusive) {
+            return startInclusive;
+        }
+        return startInclusive + ((endExclusive - startInclusive) * random.nextFloat());
+    }
+
+    /**
      * 随机double
      */
     public static double nextDouble() {
@@ -92,15 +152,15 @@ public class RandomUtils {
         return random.nextDouble();
     }
 
-    public static double nextDouble(int endExclusive) {
-        return nextDouble(RANDOM, endExclusive);
+    public static double nextDouble(double endExclusive) {
+        return nextDouble(RANDOM, 0, endExclusive);
     }
 
-    public static double nextDouble(Random random, int endExclusive) {
+    public static double nextDouble(Random random, double endExclusive) {
         return nextDouble(random, 0, endExclusive);
     }
 
-    public static double nextDouble(int startInclusive, int endExclusive) {
+    public static double nextDouble(double startInclusive, double endExclusive) {
         return nextDouble(RANDOM, startInclusive, endExclusive);
     }
 

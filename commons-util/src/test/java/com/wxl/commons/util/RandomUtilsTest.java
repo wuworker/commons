@@ -11,6 +11,62 @@ import java.util.stream.IntStream;
 public class RandomUtilsTest {
 
     @Test
+    public void randomNum() {
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextBoolean()));
+
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextInt()));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextInt(100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextInt(0, 100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextLong()));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextLong(100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextLong(0, 100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextFloat()));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextFloat(100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextFloat(0, 100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextDouble()));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextDouble(100)));
+        System.out.println("-----------------------------");
+
+        IntStream.range(0, 10)
+                .forEach(i -> System.out.println(RandomUtils.nextDouble(0, 100)));
+        System.out.println("-----------------------------");
+    }
+
+    @Test
     public void randomDate() {
         IntStream.range(0, 10)
                 .forEach(i -> {
