@@ -99,6 +99,19 @@
         </dependencies>
     </dependencyManagement>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>User Project Release</name>
+            <url>http://wxl.study.internal:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>User Project SNAPSHOTS</name>
+            <url>http://wxl.study.internal:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <build>
         <pluginManagement>
             <plugins>
