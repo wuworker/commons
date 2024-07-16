@@ -3,6 +3,7 @@ package com.wxl.commons.util.file.md;
 import lombok.Data;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.function.Consumer;
 @Data
 public class MarkdownList implements MarkdownComponent, Iterable<MarkdownComponent> {
 
+    @Serial
     private static final long serialVersionUID = 6231039598975292869L;
 
     //有序true

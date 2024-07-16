@@ -1,7 +1,7 @@
 package com.wxl.commons.excel.read;
 
 import com.wxl.commons.util.convert.Getters;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -13,6 +13,7 @@ import org.springframework.util.ReflectionUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,7 +33,7 @@ public class ExcelImportUtils {
     public static Workbook create(InputStream in) throws IOException {
         try {
             return WorkbookFactory.create(in);
-        } catch (InvalidFormatException e) {
+        } catch (IOException | EncryptedDocumentException e) {
             throw new IllegalArgumentException("create excel workbook error", e);
         }
     }
@@ -83,7 +84,7 @@ public class ExcelImportUtils {
         return read(workbook, sheetIndex, rowStart, (map) -> {
             try {
                 List<String> list = new ArrayList<>(map.values());
-                T t = clazz.newInstance();
+                T t = clazz.getDeclaredConstructor().newInstance();
                 Field[] fields = clazz.getDeclaredFields();
                 for (int i = 0; i < fields.length && i < list.size(); i++) {
                     setFieldValue(t, fields[i], list.get(i));
@@ -91,7 +92,9 @@ public class ExcelImportUtils {
                 return t;
             } catch (IllegalAccessException e) {
                 throw new IllegalStateException("can not access default construct", e);
-            } catch (InstantiationException e) {
+            } catch (NoSuchMethodException e) {
+                throw new IllegalStateException("can not find default construct", e);
+            } catch (InstantiationException | InvocationTargetException e) {
                 throw new IllegalStateException("create default construct error", e);
             }
         });
@@ -167,7 +170,7 @@ public class ExcelImportUtils {
      */
     @Nullable
     private static String getCellString(Cell cell) {
-        switch (cell.getCellTypeEnum()) {
+        switch (cell.getCellType()) {
             case BLANK:
                 return null;
             case NUMERIC:

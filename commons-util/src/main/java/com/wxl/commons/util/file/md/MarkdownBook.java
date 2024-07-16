@@ -1,5 +1,6 @@
 package com.wxl.commons.util.file.md;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
  */
 public class MarkdownBook implements MarkdownComponent, Iterable<MarkdownComponent> {
 
+    @Serial
     private static final long serialVersionUID = -2841083486426131158L;
 
     private List<MarkdownComponent> list = new ArrayList<>();

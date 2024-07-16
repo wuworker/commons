@@ -1,8 +1,6 @@
 package com.wxl.commons.util.file;
 
 
-import com.google.common.io.ByteStreams;
-
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
@@ -67,7 +65,7 @@ public class CompressUtils {
         } else {
             zipOut.putNextEntry(new ZipEntry(base + source.getName()));
             try (FileInputStream in = new FileInputStream(source)) {
-                ByteStreams.copy(in, zipOut);
+                in.transferTo(zipOut);
             }
         }
     }
@@ -104,7 +102,7 @@ public class CompressUtils {
             zipOut.putNextEntry(new ZipEntry(name));
 
             try (InputStream in = url.openStream()) {
-                ByteStreams.copy(in, zipOut);
+                in.transferTo(out);
             }
         }
     }
@@ -173,10 +171,11 @@ public class CompressUtils {
             if (entry.isDirectory()) {
                 continue;
             }
-            try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream();) {
-                ByteStreams.copy(zipIn, byteOut);
-                list.add(byteOut.toByteArray());
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            try (byteOut) {
+                zipIn.transferTo(byteOut);
             }
+            list.add(byteOut.toByteArray());
         }
         return list;
     }
@@ -231,7 +230,7 @@ public class CompressUtils {
     public static byte[] gzip(InputStream in) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (GZIPOutputStream gzipOut = toGZIPOutputStream(out)) {
-            ByteStreams.copy(in, gzipOut);
+            in.transferTo(gzipOut);
         }
         // 等gzipOut close后输出byte
         return out.toByteArray();
@@ -264,10 +263,11 @@ public class CompressUtils {
 
     public static byte[] ungzip(InputStream in) throws IOException {
         GZIPInputStream gzipIn = toGZIPInputStream(in);
-        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-            ByteStreams.copy(gzipIn, out);
-            return out.toByteArray();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try (out) {
+            gzipIn.transferTo(out);
         }
+        return out.toByteArray();
     }
 
     /**

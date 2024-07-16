@@ -94,19 +94,16 @@ public class DefaultExportHandler<T> implements ExportHandler<T> {
         if (data == null) {
             return value;
         }
-        if (data instanceof Map) {
-            Map<?, ?> map = (Map<?, ?>) data;
+        if (data instanceof Map<?, ?> map) {
             for (Object key : map.keySet()) {
                 Object obj = map.get(key);
                 value.add(obj == null ? "" : obj);
             }
-        } else if (data instanceof Iterable) {
-            Iterable<?> iterable = (Iterable<?>) data;
+        } else if (data instanceof Iterable<?> iterable) {
             for (Object obj : iterable) {
                 value.add(obj == null ? "" : obj);
             }
-        } else if (data instanceof Enumeration) {
-            Enumeration<?> it = (Enumeration<?>) data;
+        } else if (data instanceof Enumeration<?> it) {
             while (it.hasMoreElements()) {
                 Object obj = it.nextElement();
                 value.add(obj == null ? "" : obj);

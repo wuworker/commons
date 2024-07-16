@@ -2,6 +2,8 @@ package com.wxl.commons.util.file.md;
 
 import lombok.Data;
 
+import java.io.Serial;
+
 /**
  * Created by wuxingle on 2018/05/22
  * md链接
@@ -9,6 +11,7 @@ import lombok.Data;
 @Data
 public class MarkdownLink implements MarkdownComponent {
 
+    @Serial
     private static final long serialVersionUID = -2412366644264242309L;
 
     //描述

@@ -29,14 +29,10 @@ public class ExcelExportUtils {
      * 根据版本获取workbook
      */
     public static Workbook create(ExcelVersion version) {
-        switch (version) {
-            case XLS:
-                return new HSSFWorkbook();
-            case XLSX:
-                return new XSSFWorkbook();
-            default:
-                throw new IllegalArgumentException("version unknow,muse be [XLS/XLSX]");
-        }
+        return switch (version) {
+            case XLS -> new HSSFWorkbook();
+            case XLSX -> new XSSFWorkbook();
+        };
     }
 
     /**

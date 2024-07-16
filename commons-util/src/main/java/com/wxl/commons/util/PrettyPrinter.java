@@ -11,7 +11,6 @@ import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -95,9 +94,7 @@ public class PrettyPrinter {
         Set<C> columnKeys = table.columnKeySet();
         List<String> head = new ArrayList<>(columnKeys.size() + 1);
         head.add("");
-        head.addAll(columnKeys.stream()
-                .map(PrettyPrinter::toString)
-                .collect(Collectors.toList()));
+        head.addAll(columnKeys.stream().map(PrettyPrinter::toString).toList());
 
         printTableSplit(columnLens);
         printTableRow(head, columnLens);

@@ -1,5 +1,7 @@
 package com.wxl.commons.util;
 
+import org.springframework.lang.Nullable;
+
 import java.util.*;
 
 /**
@@ -22,6 +24,7 @@ public class PageIterator<E> implements BatchIterator<E> {
          * @param count 分页大小
          * @return 数据list
          */
+        @Nullable
         List<E> loadMore(int start, int count);
     }
 

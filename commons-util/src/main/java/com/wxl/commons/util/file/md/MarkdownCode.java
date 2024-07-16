@@ -3,6 +3,8 @@ package com.wxl.commons.util.file.md;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
+
 /**
  * Created by wuxingle on 2018/05/22
  * md的代码块
@@ -10,6 +12,7 @@ import org.springframework.util.StringUtils;
 @Data
 public class MarkdownCode implements MarkdownComponent {
 
+    @Serial
     private static final long serialVersionUID = 2921881337952030997L;
 
     private String lang;

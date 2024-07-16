@@ -2,6 +2,8 @@ package com.wxl.commons.util.file.md;
 
 import lombok.Data;
 
+import java.io.Serial;
+
 /**
  * Created by wuxingle on 2018/05/22
  * md的文字
@@ -9,6 +11,7 @@ import lombok.Data;
 @Data
 public class MarkdownText implements MarkdownComponent {
 
+    @Serial
     private static final long serialVersionUID = 8438936973657575585L;
 
     //斜体

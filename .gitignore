@@ -37,3 +37,4 @@ pom.xml.releaseBackup
 .xlsx
 .xlx
 .log
+.flattened-pom.xml

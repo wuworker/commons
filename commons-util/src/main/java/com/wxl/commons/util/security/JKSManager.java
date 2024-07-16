@@ -189,14 +189,12 @@ public class JKSManager {
      */
     private static void outputKey(OutputStream out, byte[] key, byte[] start, byte[] end) throws IOException {
         byte[] newLine = System.lineSeparator().getBytes();
-        try {
+        try (out) {
             out.write(start);
             out.write(newLine);
             out.write(Base64.getMimeEncoder().encode(key));
             out.write(newLine);
             out.write(end);
-        } finally {
-            out.close();
         }
     }
 

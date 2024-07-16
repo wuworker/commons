@@ -6,6 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
+import java.io.Serial;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.sql.SQLException;
@@ -240,6 +241,7 @@ public class BatchInsertHelper {
      */
     private class InsertTask extends RecursiveTask<Long> {
 
+        @Serial
         private static final long serialVersionUID = -562286401916407557L;
 
         private BlockingQueue<List<Object>> queue;
@@ -307,6 +309,7 @@ public class BatchInsertHelper {
      */
     private class GenerateTask extends RecursiveTask<Long> {
 
+        @Serial
         private static final long serialVersionUID = 8771267383245417077L;
 
         private Function<Long, List<Object>> generator;

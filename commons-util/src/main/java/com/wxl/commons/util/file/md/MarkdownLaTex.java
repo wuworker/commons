@@ -2,6 +2,8 @@ package com.wxl.commons.util.file.md;
 
 import lombok.Data;
 
+import java.io.Serial;
+
 /**
  * Created by wuxingle on 2018/05/23
  * md的公式
@@ -9,6 +11,7 @@ import lombok.Data;
 @Data
 public class MarkdownLaTex implements MarkdownComponent {
 
+    @Serial
     private static final long serialVersionUID = -6733261484643829167L;
 
     //true行内，false整行

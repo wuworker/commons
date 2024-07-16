@@ -3,6 +3,8 @@ package com.wxl.commons.util.file.md;
 import lombok.Data;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
+
 /**
  * Created by wuxingle on 2018/05/22
  * md标题
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 @Data
 public class MarkdownTitle implements MarkdownComponent {
 
+    @Serial
     private static final long serialVersionUID = -7663430755837857138L;
 
     public static final int MAX_LEVEL = 6;

@@ -2,6 +2,7 @@ package com.wxl.commons.util.file.md;
 
 import lombok.Data;
 
+import java.io.Serial;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -12,6 +13,7 @@ import java.util.function.Consumer;
 @Data
 public class MarkdownTable implements MarkdownComponent, Iterable<List<MarkdownComponent>> {
 
+    @Serial
     private static final long serialVersionUID = -6563325369077712196L;
 
     public static final int ALIGN_LEFT = 0;

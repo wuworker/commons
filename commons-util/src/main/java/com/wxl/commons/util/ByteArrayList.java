@@ -1,10 +1,8 @@
 package com.wxl.commons.util;
 
-import com.google.common.io.ByteStreams;
+import org.springframework.lang.Nullable;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -14,6 +12,7 @@ import java.util.function.Consumer;
  */
 public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
 
+    @Serial
     private static final long serialVersionUID = 301869012058883782L;
 
     private static final int DEFAULT_INIT_SIZE = 256;
@@ -45,8 +44,11 @@ public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
      * 从输入流中获取
      */
     public static ByteArrayList fromStream(InputStream in) throws IOException {
-        byte[] bytes = ByteStreams.toByteArray(in);
-        return new ByteArrayList(bytes);
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            in.transferTo(out);
+            byte[] bytes = out.toByteArray();
+            return new ByteArrayList(bytes);
+        }
     }
 
     /**
@@ -349,6 +351,7 @@ public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
             return start < end;
         }
 
+        @Nullable
         @Override
         public Spliterator<Byte> trySplit() {
             int mid = (start + end) >> 1, e = end;
@@ -414,8 +417,7 @@ public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
         if (this == obj) {
             return true;
         }
-        if (obj instanceof ByteArrayList) {
-            ByteArrayList list = (ByteArrayList) obj;
+        if (obj instanceof ByteArrayList list) {
             if (size != list.size) {
                 return false;
             }
