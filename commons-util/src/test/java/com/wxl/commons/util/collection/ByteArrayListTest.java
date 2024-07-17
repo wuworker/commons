@@ -1,6 +1,5 @@
-package com.wxl.commons.util;
+package com.wxl.commons.util.collection;
 
-import com.wxl.commons.util.collection.ByteArrayList;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

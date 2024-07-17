@@ -282,12 +282,7 @@ public class PrettyPrinter {
     }
 
     public static void printThreadInfo(Thread thread, @Nullable Object obj) {
-        String info = "thread id:" + thread.getId()
-                + ", name:" + thread.getName()
-                + ", group:" + thread.getThreadGroup().getName()
-                + ", daemon:" + thread.isDaemon()
-                + ", priority:" + thread.getPriority()
-                + ", state:" + thread.getState().name();
+        String info = ThreadUtils.getPrintThreadInfo(thread);
         if (obj != null) {
             info = "[" + info + "]: " + toString(obj);
         }

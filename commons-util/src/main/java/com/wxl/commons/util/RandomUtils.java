@@ -3,7 +3,9 @@ package com.wxl.commons.util;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.util.Assert;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.*;
 import java.util.function.Function;
@@ -348,6 +350,40 @@ public class RandomUtils {
         String suffix = EMAIL_SUFFIX[random.nextInt(EMAIL_SUFFIX.length)];
         return randomAlphabetic(random, length) + suffix;
     }
+
+    /**
+     * 随机生成常用汉字
+     */
+    public static String randomChinese(int length) {
+        return randomChinese(new Random(), length);
+    }
+
+    public static String randomChinese(int min, int max) {
+        return randomChinese(new Random(), min, max);
+    }
+
+    public static String randomChinese(Random random, int length) {
+        Assert.isTrue(length > 0, "length must > 0");
+        StringBuilder sb = new StringBuilder(length);
+        try {
+            byte[] b = new byte[2];
+            for (int i = 0; i < length; i++) {
+                b[0] = (byte) (176 + random.nextInt(39));
+                b[1] = (byte) (161 + random.nextInt(93));
+                sb.append(new String(b, "gbk"));
+            }
+        } catch (UnsupportedEncodingException e) {
+            throw new IllegalStateException(e);
+        }
+        return sb.toString();
+    }
+
+    public static String randomChinese(Random random, int min, int max) {
+        Assert.isTrue(max > min && min > 0, "max must > min and > 0");
+        int len = random.nextInt(max - min) + min;
+        return randomChinese(random, len);
+    }
+
 
     /**
      * 随机对象

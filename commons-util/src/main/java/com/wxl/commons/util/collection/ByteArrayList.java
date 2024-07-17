@@ -1,4 +1,4 @@
-package com.wxl.commons.util;
+package com.wxl.commons.util.collection;
 
 import org.springframework.lang.Nullable;
 
@@ -371,7 +371,7 @@ public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
 
     @Override
     public Iterator<Byte> iterator() {
-        return new Iterator<Byte>() {
+        return new Iterator<>() {
             int index = -1;
 
             public boolean hasNext() {
