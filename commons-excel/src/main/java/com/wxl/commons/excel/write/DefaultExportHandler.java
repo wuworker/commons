@@ -2,7 +2,6 @@ package com.wxl.commons.excel.write;
 
 import lombok.Setter;
 import org.apache.poi.ss.usermodel.*;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -124,7 +123,7 @@ public class DefaultExportHandler<T> implements ExportHandler<T> {
     /**
      * 设置单元格的值
      */
-    private void setCellValue(Cell cell, @Nullable Object value) {
+    private void setCellValue(Cell cell, Object value) {
         if (value == null) {
             cell.setCellValue("");
         } else if (value instanceof Date) {

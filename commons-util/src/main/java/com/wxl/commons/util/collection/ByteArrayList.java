@@ -1,6 +1,5 @@
 package com.wxl.commons.util.collection;
 
-import org.springframework.lang.Nullable;
 
 import java.io.*;
 import java.util.*;
@@ -351,7 +350,6 @@ public class ByteArrayList implements Iterable<Byte>, Serializable, Cloneable {
             return start < end;
         }
 
-        @Nullable
         @Override
         public Spliterator<Byte> trySplit() {
             int mid = (start + end) >> 1, e = end;

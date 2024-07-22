@@ -14,8 +14,8 @@
     <dependencies>
         <!-- spring -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
         </dependency>
 
         <!-- commons -->
@@ -42,29 +42,19 @@
             <artifactId>fastjson2</artifactId>
         </dependency>
 
-        <!-- dom4j -->
-        <dependency>
-            <groupId>org.dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-        </dependency>
-
         <!-- guava -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
 
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+        <!-- 不常用的optional依赖 -->
 
+        <!-- dom4j -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

@@ -5,7 +5,6 @@ import com.google.common.collect.Table;
 import com.wxl.commons.jdbc.JdbcMapping;
 import com.wxl.commons.jdbc.JdbcOperator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.sql.SQLException;
@@ -195,7 +194,6 @@ public class ShardTableHelper {
      */
     private interface QueryOperator<T> {
 
-        @Nullable
         T query(String sql, Object... params) throws SQLException;
     }
 

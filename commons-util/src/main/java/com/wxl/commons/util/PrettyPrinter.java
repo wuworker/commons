@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
@@ -27,7 +26,7 @@ public class PrettyPrinter {
     /**
      * 16进制打印
      */
-    public static void printHex(@Nullable byte[] bytes) {
+    public static void printHex(byte[] bytes) {
         if (bytes == null) {
             System.out.println(nullToString());
         } else {
@@ -38,7 +37,7 @@ public class PrettyPrinter {
     /**
      * 打印base64
      */
-    public static void printBase64(@Nullable byte[] bytes) {
+    public static void printBase64(byte[] bytes) {
         if (bytes == null) {
             System.out.println(nullToString());
         } else {
@@ -49,7 +48,7 @@ public class PrettyPrinter {
     /**
      * 打印json
      */
-    public static void printJson(@Nullable Object object) {
+    public static void printJson(Object object) {
         if (object == null) {
             System.out.println(nullToString());
         } else {
@@ -60,7 +59,7 @@ public class PrettyPrinter {
     /**
      * 打印表格
      */
-    public static <T> void printTable(@Nullable List<List<T>> table) {
+    public static <T> void printTable(List<List<T>> table) {
         if (table == null) {
             System.out.println(nullToString());
             return;
@@ -81,7 +80,7 @@ public class PrettyPrinter {
     /**
      * 打印表格
      */
-    public static <R, C, V> void printTable(@Nullable Table<R, C, V> table) {
+    public static <R, C, V> void printTable(Table<R, C, V> table) {
         if (table == null) {
             System.out.println(nullToString());
             return;
@@ -277,11 +276,11 @@ public class PrettyPrinter {
         printThreadInfo(thread, null);
     }
 
-    public static void printThreadInfo(@Nullable Object obj) {
+    public static void printThreadInfo(Object obj) {
         printThreadInfo(Thread.currentThread(), obj);
     }
 
-    public static void printThreadInfo(Thread thread, @Nullable Object obj) {
+    public static void printThreadInfo(Thread thread, Object obj) {
         String info = ThreadUtils.getPrintThreadInfo(thread);
         if (obj != null) {
             info = "[" + info + "]: " + toString(obj);
@@ -303,7 +302,7 @@ public class PrettyPrinter {
                 .orElse(0);
     }
 
-    private static String toString(@Nullable Object obj) {
+    private static String toString(Object obj) {
         return obj == null ? nullToString() : obj.toString();
     }
 

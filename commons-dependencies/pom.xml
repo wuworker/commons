@@ -30,7 +30,7 @@
             </dependency>
             <dependency>
                 <groupId>com.wxl.commons</groupId>
-                <artifactId>commons-http</artifactId>
+                <artifactId>commons-lock</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>

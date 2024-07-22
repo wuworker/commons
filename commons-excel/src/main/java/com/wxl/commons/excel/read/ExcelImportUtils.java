@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
@@ -151,7 +150,7 @@ public class ExcelImportUtils {
     /**
      * 设置属性
      */
-    private static void setFieldValue(Object target, Field field, @Nullable String cellValue) {
+    private static void setFieldValue(Object target, Field field, String cellValue) {
         Class<?> clazz = field.getType();
 
         Object newVal;
@@ -168,7 +167,6 @@ public class ExcelImportUtils {
     /**
      * 获取cell的值
      */
-    @Nullable
     private static String getCellString(Cell cell) {
         switch (cell.getCellType()) {
             case BLANK:

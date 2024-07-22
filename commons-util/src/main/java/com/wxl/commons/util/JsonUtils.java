@@ -3,7 +3,6 @@ package com.wxl.commons.util;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class JsonUtils {
         return putVal(json, key, value, null, false);
     }
 
-    public static Object put(Object json, String key, Object value, @Nullable String split) {
+    public static Object put(Object json, String key, Object value, String split) {
         return putVal(json, key, value, split, false);
     }
 
@@ -62,7 +61,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> put(Map<String, Object> json, String key, Object value, @Nullable String split) {
+    public static Map<String, Object> put(Map<String, Object> json, String key, Object value, String split) {
         return (Map<String, Object>) putVal(json, key, value, split, false);
     }
 
@@ -72,7 +71,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Object> put(List<Object> json, String key, Object value, @Nullable String split) {
+    public static List<Object> put(List<Object> json, String key, Object value, String split) {
         return (List<Object>) putVal(json, key, value, split, false);
     }
 
@@ -83,7 +82,7 @@ public class JsonUtils {
         return putVal(json, key, value, null, true);
     }
 
-    public static Object putIfAbsent(Object json, String key, Object value, @Nullable String split) {
+    public static Object putIfAbsent(Object json, String key, Object value, String split) {
         return putVal(json, key, value, split, true);
     }
 
@@ -93,7 +92,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static Map<String, Object> putIfAbsent(Map<String, Object> json, String key, Object value, @Nullable String split) {
+    public static Map<String, Object> putIfAbsent(Map<String, Object> json, String key, Object value, String split) {
         return (Map<String, Object>) putVal(json, key, value, split, true);
     }
 
@@ -103,7 +102,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Object> putIfAbsent(List<Object> json, String key, Object value, @Nullable String split) {
+    public static List<Object> putIfAbsent(List<Object> json, String key, Object value, String split) {
         return (List<Object>) putVal(json, key, value, split, true);
     }
 
@@ -118,7 +117,7 @@ public class JsonUtils {
      * }</pre>
      */
     @SuppressWarnings("unchecked")
-    private static Object putVal(Object json, String key, @Nullable Object value, @Nullable String split, boolean onlyIfAbsent) {
+    private static Object putVal(Object json, String key, Object value, String split, boolean onlyIfAbsent) {
         Assert.hasText(key, "put key can not empty");
         //默认用.分隔
         if (StringUtils.isBlank(split)) {
@@ -222,40 +221,33 @@ public class JsonUtils {
     /**
      * 从json中取出数据
      */
-    @Nullable
     public static <T> T get(Object json, String key, Class<T> clazz) {
         return getVal(json, key, clazz, null);
     }
 
-    @Nullable
-    public static <T> T get(Object json, String key, Class<T> clazz, @Nullable String split) {
+    public static <T> T get(Object json, String key, Class<T> clazz, String split) {
         return getVal(json, key, clazz, split);
     }
 
-    @Nullable
     public static Object get(Object json, String key) {
         return getVal(json, key, Object.class, null);
     }
 
-    @Nullable
-    public static Object get(Object json, String key, @Nullable String split) {
+    public static Object get(Object json, String key, String split) {
         return getVal(json, key, Object.class, split);
     }
 
-    @Nullable
     public static String getString(Object json, String key) {
         return getString(json, key, null);
     }
 
-    @Nullable
-    public static String getString(Object json, String key, @Nullable String split) {
+    public static String getString(Object json, String key, String split) {
         Object obj = getVal(json, key, Object.class, split);
         return obj == null ? null : obj.toString();
     }
 
-    @Nullable
     @SuppressWarnings("unchecked")
-    private static <T> T getVal(Object json, String key, Class<T> clazz, @Nullable String split) {
+    private static <T> T getVal(Object json, String key, Class<T> clazz, String split) {
         Assert.hasText(key, "put key can not empty");
         //默认用.分隔
         if (StringUtils.isBlank(split)) {
@@ -290,14 +282,12 @@ public class JsonUtils {
     /**
      * 删除key
      */
-    @Nullable
     public static Object remove(Object json, String key) {
         return remove(json, key, null);
     }
 
-    @Nullable
     @SuppressWarnings("unchecked")
-    public static Object remove(Object json, String key, @Nullable String split) {
+    public static Object remove(Object json, String key, String split) {
         Assert.hasText(key, "put key can not empty");
         if (StringUtils.isBlank(split)) {
             split = "\\.";
@@ -345,7 +335,7 @@ public class JsonUtils {
      * @param keyHandler   json的key处理
      */
     @SuppressWarnings("unchecked")
-    public static void doWithJson(Object json, @Nullable BiFunction<String, Object, Object> valueHandler, @Nullable BiFunction<String, Object, String> keyHandler) {
+    public static void doWithJson(Object json, BiFunction<String, Object, Object> valueHandler, BiFunction<String, Object, String> keyHandler) {
         Assert.isTrue(valueHandler != null || keyHandler != null, "value or key ,must not null at least 1!");
         if (json instanceof Map) {
             doWithJson((Map<String, Object>) json, valueHandler, keyHandler);
@@ -357,7 +347,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private static void doWithJson(Map<String, Object> json, @Nullable BiFunction<String, Object, Object> valueHandler, @Nullable BiFunction<String, Object, String> keyHandler) {
+    private static void doWithJson(Map<String, Object> json, BiFunction<String, Object, Object> valueHandler, BiFunction<String, Object, String> keyHandler) {
         if (keyHandler != null) {
             Map<String, Object> map = new HashMap<>(json.size(), 1);
             for (Map.Entry<String, Object> entry : json.entrySet()) {
@@ -394,7 +384,7 @@ public class JsonUtils {
     }
 
     @SuppressWarnings("unchecked")
-    private static void doWithJson(List<Object> json, @Nullable BiFunction<String, Object, Object> valueHandler, @Nullable BiFunction<String, Object, String> keyHandler) {
+    private static void doWithJson(List<Object> json, BiFunction<String, Object, Object> valueHandler, BiFunction<String, Object, String> keyHandler) {
         for (Object obj : json) {
             if (obj instanceof Map) {
                 doWithJson((Map<String, Object>) obj, valueHandler, keyHandler);

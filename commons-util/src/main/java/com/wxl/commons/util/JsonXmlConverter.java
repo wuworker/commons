@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -260,7 +259,7 @@ public class JsonXmlConverter {
     }
 
     @SuppressWarnings("unchecked")
-    private Element jsonToXml(Object json, @Nullable Element root) {
+    private Element jsonToXml(Object json, Element root) {
         if (json instanceof Map) {
             Map<String, Object> map = (Map<String, Object>) json;
             if (root == null) {

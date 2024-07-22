@@ -3,7 +3,6 @@ package com.wxl.commons.util.convert;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.ConverterRegistry;
 import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.lang.Nullable;
 
 import java.util.Date;
 import java.util.function.Consumer;
@@ -20,15 +19,13 @@ public class Getters {
      */
     private static DefaultConversionService DEFAULT_CONVERT = null;
 
-    @Nullable
     private final Object value;
 
-    @Nullable
     private Class<?> valueClass;
 
     private ConversionService conversionService;
 
-    private Getters(@Nullable Object value) {
+    private Getters(Object value) {
         this.value = value;
         if (this.value != null) {
             this.valueClass = this.value.getClass();
@@ -74,7 +71,7 @@ public class Getters {
      * @param value 待转换的值
      * @return
      */
-    public static Getters of(@Nullable Object value) {
+    public static Getters of(Object value) {
         return new Getters(value);
     }
 
@@ -97,7 +94,6 @@ public class Getters {
     /**
      * 已知目标类型下获取
      */
-    @Nullable
     @SuppressWarnings("unchecked")
     public <T> T get() {
         return (T) value;
@@ -106,7 +102,6 @@ public class Getters {
     /**
      * 转换为目标类型
      */
-    @Nullable
     public <T> T get(Class<T> clazz) {
         return getConvert().convert(value, clazz);
     }
@@ -114,7 +109,6 @@ public class Getters {
     /**
      * 不是目标类型，获取默认值
      */
-    @Nullable
     public <T> T orElse(Class<T> clazz, T defaultVal) {
         ConversionService convert = getConvert();
         if (convert.canConvert(valueClass, clazz)) {

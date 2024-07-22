@@ -1,7 +1,6 @@
 package com.wxl.commons.util.convert;
 
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.lang.Nullable;
 
 import java.util.Date;
 
@@ -11,7 +10,6 @@ import java.util.Date;
  */
 public class DateToLongConvert implements Converter<Date, Long> {
 
-    @Nullable
     @Override
     public Long convert(Date source) {
         return source.toInstant().toEpochMilli();

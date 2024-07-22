@@ -2,7 +2,6 @@ package com.wxl.commons.jdbc.helper;
 
 import com.wxl.commons.jdbc.JdbcOperator;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -30,25 +29,22 @@ public class BatchInsertBuilder {
     /**
      * 运行线程池
      */
-    @Nullable
     private ForkJoinPool forkJoinPool;
 
     /**
      * 单条线程生成数据大小
      */
-    @Nullable
     private Integer singleTaskMaxGenerateData;
 
     /**
      * 单条线程处理数据大小
      */
-    @Nullable
     private Integer singleTaskMaxHandle;
 
     /**
      * 一次性批量插入数据大小
      */
-    @Nullable
+
     private Integer insertBatchMaxLimit;
 
     private BatchInsertBuilder() {

@@ -4,11 +4,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.dom4j.*;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.springframework.lang.Nullable;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by wuxingle on 2018/1/13.
@@ -64,8 +66,7 @@ public class Dom4jUtils {
     /**
      * 获取子节点,没有则返回null
      */
-    @Nullable
-    public static Element getChildElement(@Nullable Element parent, String... keys) {
+    public static Element getChildElement(Element parent, String... keys) {
         if (parent == null) {
             return null;
         }
@@ -103,8 +104,7 @@ public class Dom4jUtils {
         return value;
     }
 
-    @Nullable
-    public static String getAttributeValue(@Nullable Element element, String name) {
+    public static String getAttributeValue(Element element, String name) {
         if (element == null) {
             return null;
         }
@@ -134,8 +134,7 @@ public class Dom4jUtils {
         return find;
     }
 
-    @Nullable
-    public static Element findFirstEleByValueEquals(@Nullable List<Element> list, String value) {
+    public static Element findFirstEleByValueEquals(List<Element> list, String value) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
@@ -154,7 +153,7 @@ public class Dom4jUtils {
      *
      * @return 找到的element集合
      */
-    public static List<Element> findEleByValueEquals(@Nullable List<Element> list, String value) {
+    public static List<Element> findEleByValueEquals(List<Element> list, String value) {
         if (CollectionUtils.isEmpty(list)) {
             return Collections.emptyList();
         }
@@ -190,8 +189,7 @@ public class Dom4jUtils {
         return find;
     }
 
-    @Nullable
-    public static Element findFirstEleByAttrEquals(@Nullable List<Element> list, String attrName, String attrValue) {
+    public static Element findFirstEleByAttrEquals(List<Element> list, String attrName, String attrValue) {
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }

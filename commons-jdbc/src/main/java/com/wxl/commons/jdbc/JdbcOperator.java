@@ -4,7 +4,6 @@ import com.google.common.collect.ArrayTable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 import java.sql.*;
@@ -78,7 +77,7 @@ public class JdbcOperator {
         return query(clazz, null, sql, params);
     }
 
-    @Nullable
+
     public <T> T queryOne(Class<T> clazz, String sql, Object... params) throws SQLException {
         List<T> list = query(clazz, null, sql, params);
         return limitOne(list);
@@ -87,13 +86,13 @@ public class JdbcOperator {
     /**
      * 查询为目标类型
      */
-    public <T> List<T> query(Class<T> clazz, @Nullable NameMapping nameMapping, String sql, Object... params) throws SQLException {
+    public <T> List<T> query(Class<T> clazz, NameMapping nameMapping, String sql, Object... params) throws SQLException {
         JdbcMapping<T> mapping = new AutoClassJdbcMapping<>(clazz, nameMapping);
         return query(mapping, sql, params);
     }
 
-    @Nullable
-    public <T> T queryOne(Class<T> clazz, @Nullable NameMapping nameMapping, String sql, Object... params) throws SQLException {
+
+    public <T> T queryOne(Class<T> clazz, NameMapping nameMapping, String sql, Object... params) throws SQLException {
         List<T> list = query(clazz, nameMapping, sql, params);
         return limitOne(list);
     }
@@ -113,7 +112,7 @@ public class JdbcOperator {
         return list;
     }
 
-    @Nullable
+
     public <T> T queryOne(JdbcMapping<T> mapping, String sql, Object... params) throws SQLException {
         List<T> list = query(mapping, sql, params);
         return limitOne(list);
@@ -214,7 +213,7 @@ public class JdbcOperator {
     /**
      * 关闭连接
      */
-    private void closeAuto(@Nullable ResultSet resultSet) throws SQLException {
+    private void closeAuto(ResultSet resultSet) throws SQLException {
         try {
             if (resultSet != null) {
                 resultSet.close();
@@ -240,7 +239,7 @@ public class JdbcOperator {
     /**
      * 返回1条结果
      */
-    @Nullable
+
     private <T> T limitOne(List<T> list) throws SQLException {
         if (list.isEmpty()) {
             return null;

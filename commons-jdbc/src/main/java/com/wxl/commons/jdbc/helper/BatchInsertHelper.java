@@ -2,7 +2,6 @@ package com.wxl.commons.jdbc.helper;
 
 import com.wxl.commons.jdbc.JdbcOperator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -46,7 +45,6 @@ public class BatchInsertHelper {
     /**
      * 运行线程池
      */
-    @Nullable
     private final ForkJoinPool forkJoinPool;
 
     /**
@@ -67,7 +65,7 @@ public class BatchInsertHelper {
 
     BatchInsertHelper(JdbcOperator jdbcOperator,
                       String tableName, List<String> columns,
-                      @Nullable ForkJoinPool forkJoinPool,
+                      ForkJoinPool forkJoinPool,
                       Integer singleTaskMaxGenerateData,
                       Integer singleTaskMaxHandle,
                       Integer insertBatchMaxLimit) {

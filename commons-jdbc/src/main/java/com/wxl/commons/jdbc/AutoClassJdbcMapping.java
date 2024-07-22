@@ -1,11 +1,10 @@
 package com.wxl.commons.jdbc;
 
 import com.wxl.commons.util.convert.Getters;
-import org.springframework.beans.BeanUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class AutoClassJdbcMapping<T> implements JdbcMapping<T> {
         this(clazz, null);
     }
 
-    public AutoClassJdbcMapping(Class<T> clazz, @Nullable NameMapping nameMapping) {
+    public AutoClassJdbcMapping(Class<T> clazz, NameMapping nameMapping) {
         this.clazz = clazz;
         this.nameMapping = Optional.ofNullable(nameMapping).orElse(NameMapping.toCamel());
         this.isSimpleType = isSimpleType(clazz);
@@ -52,7 +51,14 @@ public class AutoClassJdbcMapping<T> implements JdbcMapping<T> {
         }
 
         // java bean
-        T bean = BeanUtils.instantiateClass(clazz);
+        T bean = null;
+        try {
+            bean = clazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
+            throw new IllegalStateException(e);
+        }
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             String fieldName = nameMapping.mapping(entry.getKey());
