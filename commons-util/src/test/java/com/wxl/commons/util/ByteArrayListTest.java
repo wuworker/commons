@@ -1,14 +1,14 @@
 package com.wxl.commons.util;
 
 import com.wxl.commons.util.collection.ByteArrayList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**

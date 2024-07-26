@@ -3,7 +3,7 @@ package com.wxl.commons.util;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

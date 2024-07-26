@@ -1,8 +1,8 @@
 package com.wxl.commons.lock;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -20,7 +20,7 @@ public class RedisSupportTest {
 
     private static RedisSupport redisSupport;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(5);
@@ -32,7 +32,7 @@ public class RedisSupportTest {
         redisSupport = new RedisSupport(pool);
     }
 
-    @AfterClass
+    @AfterAll
     public static void after() {
         pool.destroy();
     }

@@ -1,7 +1,7 @@
 package com.wxl.commons.util.collection;
 
 import com.wxl.commons.util.ThreadUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.SerializationUtils;
 

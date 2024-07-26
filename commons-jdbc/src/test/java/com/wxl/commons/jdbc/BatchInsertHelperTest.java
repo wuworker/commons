@@ -4,9 +4,9 @@ import com.wxl.commons.jdbc.helper.BatchInsertBuilder;
 import com.wxl.commons.jdbc.helper.BatchInsertHelper;
 import com.wxl.commons.util.RandomUtils;
 import lombok.Data;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public class BatchInsertHelperTest {
 
     private static BatchInsertHelper batchInsertHelper;
 
-    @BeforeClass
+    @BeforeAll
     public static void start() throws Exception {
         operator = new JdbcOperator(driver, url, username, password, false);
         batchInsertHelper = BatchInsertBuilder.builder(operator)
@@ -42,7 +42,7 @@ public class BatchInsertHelperTest {
                 .build();
     }
 
-    @AfterClass
+    @AfterAll
     public static void end() throws Exception {
         operator.close();
     }

@@ -2,7 +2,7 @@ package com.wxl.commons.lock;
 
 
 import com.wxl.commons.util.ThreadUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;

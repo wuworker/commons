@@ -1,7 +1,7 @@
 package com.wxl.commons.util.security;
 
 import org.apache.commons.codec.binary.Hex;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by wuxingle on 2017/9/10 0010.

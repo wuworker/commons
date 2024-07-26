@@ -2,9 +2,9 @@ package com.wxl.commons.jdbc;
 
 import com.google.common.collect.Table;
 import com.wxl.commons.util.PrettyPrinter;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.List;
@@ -26,12 +26,12 @@ public class JdbcOperatorTest {
 
     private static JdbcOperator operator;
 
-    @BeforeClass
+    @BeforeAll
     public static void start() throws Exception {
         operator = new JdbcOperator(driver, url, username, password, false);
     }
 
-    @AfterClass
+    @AfterAll
     public static void end() throws Exception {
         operator.close();
     }

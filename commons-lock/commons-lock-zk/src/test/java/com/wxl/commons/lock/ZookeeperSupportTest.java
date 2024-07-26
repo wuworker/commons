@@ -2,7 +2,7 @@ package com.wxl.commons.lock;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.ZooDefs;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by wuxingle on 2018/1/31.

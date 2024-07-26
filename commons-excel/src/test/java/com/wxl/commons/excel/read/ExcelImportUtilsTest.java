@@ -4,7 +4,7 @@ import com.wxl.commons.excel.TestHelper;
 import com.wxl.commons.excel.User;
 import com.wxl.commons.util.PrettyPrinter;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.util.List;

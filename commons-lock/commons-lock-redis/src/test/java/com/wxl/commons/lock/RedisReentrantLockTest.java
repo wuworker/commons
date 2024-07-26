@@ -1,8 +1,8 @@
 package com.wxl.commons.lock;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -17,7 +17,7 @@ public class RedisReentrantLockTest {
 
     private static Pool<Jedis> pool;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(100);
@@ -29,7 +29,7 @@ public class RedisReentrantLockTest {
 
     }
 
-    @AfterClass
+    @AfterAll
     public static void after() {
         pool.destroy();
     }

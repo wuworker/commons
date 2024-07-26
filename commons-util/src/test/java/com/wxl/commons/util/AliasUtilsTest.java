@@ -1,6 +1,7 @@
 package com.wxl.commons.util;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Created by wuxingle on 2017/11/24.

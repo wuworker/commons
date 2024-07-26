@@ -1,6 +1,6 @@
 package com.wxl.commons.util.file.md;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.SerializationUtils;
 
 import java.io.IOException;

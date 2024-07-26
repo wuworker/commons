@@ -3,9 +3,9 @@ package com.wxl.commons.jdbc;
 import com.google.common.collect.ImmutableList;
 import com.wxl.commons.jdbc.helper.ShardTableHelper;
 import com.wxl.commons.util.PrettyPrinter;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
@@ -28,13 +28,13 @@ public class ShardTableHelperTest {
 
     private static ShardTableHelper shardTable;
 
-    @BeforeClass
+    @BeforeAll
     public static void start() throws Exception {
         operator = new JdbcOperator(driver, url, username, password, false);
         shardTable = new ShardTableHelper(operator);
     }
 
-    @AfterClass
+    @AfterAll
     public static void end() throws Exception {
         operator.close();
     }

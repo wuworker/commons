@@ -1,6 +1,6 @@
 package com.wxl.commons.util.security;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.nio.file.Files;
