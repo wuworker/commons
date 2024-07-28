@@ -1,4 +1,4 @@
-package com.wxl.commons.util;
+package com.wxl.commons.util.net;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import java.time.Duration;
  * Created by wuxingle on 2024/07/26.
  * http测试
  */
-public class HttpTest {
+public class HttpUtilsTest {
 
     @Test
     public void test1() throws Exception{
